@@ -1,110 +1,110 @@
 <template>
-    <div @click="tologin">登录</div>
-    <h2> {{ store.name }}</h2>
-    <h1 @click="changeName">修改名称</h1>
-    <el-tree :data="data" :props="defaultProps" @node-click="handleNodeClick" />
+    <div class="login_bg">
+        <div class="login_box tc">
+            <h1>欢迎登陆</h1>
+            <el-form class="tc">
+                <el-form-item prop="" label="账号">
+                    <el-input placeholder="请输入账号" v-model="userName"></el-input>
+                </el-form-item>
+                <el-form-item prop="" label="密码">
+                    <el-input placeholder="请输入密码" v-model="password"></el-input>
+                </el-form-item>
+            </el-form>
+            <div class="tc">
+                <el-button type="primary">登陆</el-button>
+            </div>
+            <div class="triangle">
+
+            </div>
+        </div>
+        <el-button @click="submit">提交</el-button>
+
+    </div>
 </template>
-<script lang="ts" setup>
-import { useRoute, useRouter } from 'vue-router'
-import { useStore } from "../store/index";
-import { getCurrentInstance } from 'vue'
-const router = useRouter()
-const store = useStore()
-function tologin() {
-    router.push({
-        name: 'index'
+<script setup lang="ts" >
+import { ref } from 'vue'
+import http from '@/utils/http'
+const userName = ref('')
+const password = ref('')
+const submit = () => {
+    http.get({
+        url: '/api/getUserInfo?userName=liu&password=Liuchuanbo1!',
+        duplicateRequestValidation: true,
+        duplicateRequestValidationTime: 3000
+    }).then(ts => {
+        console.log(ts)
+    }).catch(e => {
+        console.error(e.message)
+        console.log()
     })
 }
-function changeName(): void {
-    store.name = '索索'
-}
-interface Tree {
-    label: string
-    children?: Tree[]
-}
-
-const handleNodeClick = (data: Tree) => {
-    console.log(data)
-}
-
-const data: Tree[] = [
-    {
-        label: 'Level one 1',
-        children: [
-            {
-                label: 'Level two 1-1',
-                children: [
-                    {
-                        label: 'Level three 1-1-1',
-                    },
-                ],
-            },
-        ],
-    },
-    {
-        label: 'Level one 2',
-        children: [
-            {
-                label: 'Level two 2-1',
-                children: [
-                    {
-                        label: 'Level three 2-1-1',
-                    },
-                ],
-            },
-            {
-                label: 'Level two 2-2',
-                children: [
-                    {
-                        label: 'Level three 2-2-1',
-                    },
-                ],
-            },
-        ],
-    },
-    {
-        label: 'Level one 3',
-        children: [
-            {
-                label: 'Level two 3-1',
-                children: [
-                    {
-                        label: 'Level three 3-1-1',
-                    },
-                ],
-            },
-            {
-                label: 'Level two 3-2',
-                children: [
-                    {
-                        label: 'Level three 3-2-1',
-                    },
-                ],
-            },
-        ],
-    },
-]
-
-const defaultProps = {
-    children: 'children',
-    label: 'label',
-}
-
-const { proxy } = getCurrentInstance() as any;
-function login(): void {
-    let data = {
-        roleId: "A",
-        username: "dpc",
-        password: "dpc12345",
-        sysType: "zhfw"
-    }
-    proxy.$post("/index/login", data)
-        .then((response: any) => {
-            console.log(response)
-            router.push({
-                name: 'index'
-            })
-        })
-}
 </script>
+<style lang="scss" scoped>
+.login_bg {
+    width: 100%;
+    height: 100%;
+    background-image: url('../assets/img/bg.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
+h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #fff;
+    line-height: 3rem;
+
+}
+
+.login_box {
+    width: 100%;
+    height: 20rem;
+    margin: 0 auto;
+    background: transparent;
+}
+
+::v-deep(.el-form) {
+    width: 60%;
+    margin: 0 auto;
+
+    .el-form-item__label {
+        color: #fff;
+    }
+}
+
+::v-deep(.el-input) {
+    width: 200px;
+
+    .el-input__wrapper {
+        background-color: transparent !important;
+    }
+
+    .el-input__inner {
+        color: #fff !important;
+    }
+
+    .el-input__wrapper.is-focus {
+        box-shadow: 0 0 0 1px #11c5dc;
+    }
+}
+
+.triangle {
+    width: 30px;
+    height: 30px;
+    background-color: #bfd51c;
+    // border: 50px solid transparent;
+    border-left: 50px solid blue;
+    border-top: 50px solid rgb(56, 163, 113);
+    border-bottom: 50px solid rgb(140, 56, 163);
+    border-right: 50px solid rgb(187, 42, 59);
+}
+
+// @media screen and(min-width: 1980px) {}
+
+.tc {
+    text-align: center;
+}
+</style>

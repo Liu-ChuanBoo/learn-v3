@@ -1,18 +1,12 @@
-import { defineStore, acceptHMRUpdate } from "pinia";
-export const useStore = defineStore({
-    id: "index",
-    state: () => ({ name: "old name", }),
-    getters: {
-        myName: (state) => {
-            return `getters ${state.name}`
-        }
-    },
-    actions: {
-        changeName(name: string) {
-            this.name = name
-        }
-    },
-});
-if (import.meta.hot) {
-    import.meta.hot.accept(acceptHMRUpdate(useStore, import.meta.hot))
-}
+import { defineStore, createPinia, acceptHMRUpdate } from "pinia";
+import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
+
+// pinia persist
+const pinia = createPinia();
+pinia.use(piniaPluginPersistedstate);
+
+export default pinia;
+
+// if (import.meta.hot) {
+//     import.meta.hot.accept(acceptHMRUpdate(useStore, import.meta.hot))
+// }

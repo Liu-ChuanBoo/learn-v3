@@ -4,4 +4,6 @@
 <script setup lang="ts" >
 
 </script>
-<style lang="scss" scoped></style>
+<style>
+@import './assets/css/reset.css'
+</style>

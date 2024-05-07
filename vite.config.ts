@@ -8,6 +8,10 @@ import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { resolve } from 'path'
 export default defineConfig({
+  server: {
+    port: 8888,
+    host: '0.0.0.0'
+  },
   plugins: [
     vue(),
     AutoImport({
